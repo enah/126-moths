@@ -1,0 +1,57 @@
+\documentclass[leqno]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsfonts, color, booktabs, centernot, graphicx, fancyhdr}
+\usepackage[linktoc=all,hidelinks]{hyperref}
+\setlength\parindent{0pt}
+\begin{document}
+\title{EE126 Mini-Project 1}
+\author{Ajeya Cotra, Leah Dickstein, Davis Foote, Ena Hariyoshi}
+
+\maketitle
+
+\begin{align*}
+x &= \text{Number of WW}\\
+y &= \text{Number of Wg}\\
+z &= \text{Number of gg}
+\end{align*}
+
+List of "random" things in the simulation:
+\begin{itemize}
+%\item Number to breed
+\item Randomly pair
+\item Children traits (Punnett square)
+\item Death %by predator
+%\item Carrying capacity (done by proportion for now)
+\end{itemize}
+
+At each timestep, pick two moths to breed (table of probability ):\\  
+\begin{tabular}{l|l|l|l|l|l|l}
+{} & WW, WW & WW, Wg & WW, gg & Wg, Wg & Wg, gg & gg, gg\\
+\hline
+WW & 1 & 1/2 & 0 & 1/4 & 0 & 0\\
+Wg & 0 & 1/2 & 1 & 1/2 & 1/2 & 0\\
+gg & 0 & 0 & 0 & 1/4 & 1/2 & 1\\
+\hline\\
+{} & $(\frac{N(WW)}{N(all)})^2$ & $2(\frac{N(WW)}{N(all)})(\frac{N(Wg)}{N(all)})$ & $2(\frac{N(WW)}{N(all)})(\frac{N(gg)}{N(all)})$ & $(\frac{N(Wg)}{N(all)})^2$ & $2(\frac{N(WW)}{N(all)})(\frac{N(gg)}{N(all)})$ & $(\frac{N(gg)}{N(all)})^2$
+\end{tabular}\\
+
+So the probabilities of birth for each genotype should be:
+\begin{align*}
+b_{WW} &= \left(\frac{WW}{all} \right)^2 + \frac{WW*gg}{all^2} + \frac{1}{4}\left(\frac{Wg}{all}\right)^2\\
+b_{Wg} &= \frac{WW*Wg}{all^2} + \frac{1}{2}\left(\frac{Wg*gg}{all^2}\right) + \frac{1}{2}\left(\frac{Wg}{all}\right)^2 + 2*\frac{WW*gg}{all^2}\\
+b_{gg} &= \left(\frac{gg}{all}\right)^2 + \frac{gg*Wg}{all^2} + \frac{1}{4} \left(\frac{Wg}{all}\right)^2
+\end{align*}
+
+In addition, at each timestep we certainly kill a moth, but we randomly choose which moth to kill. The probability is greater for white instead of gray.
+\begin{align*}
+d_{WW} &= \frac{d(WW)}{WW+Wg}\\
+d_{Wg} &= \frac{d(Wg)}{WW+Wg}\\
+d_{gg} &= 1-d
+\end{align*}
+
+
+
+%Number of things you choose to breed is: $2 * \lfloor \frac{\text{Binom}(x+y+z, p)}{2} \rfloor$
+
+\end{document}
