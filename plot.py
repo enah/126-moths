@@ -5,15 +5,16 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-def prob_all_grey_against_num_moths(num_samples=100, max_moths=50):
+def prob_all_grey(num_samples=100, max_moths=50, prob_white=0.8):
     samples = []
     for num_moths in range(1, max_moths + 1):
         samples.append(
                 sum(simulate({'ww':0, 'wg':num_moths, 'gg':0}, 
-                        0.8, fraction=False)
+                        prob_white, fraction=False)
                 for _ in range(num_samples)) / float(num_samples))
     plt.plot(samples)
-    plt.title('Probability All Moths Turn Grey')
+    plt.title(
+        'Probability All Moths Turn Grey (prob_white = {})'.format(prob_white))
     plt.xlabel('Number of moths')
     plt.ylabel('Probability')
     plt.show()
