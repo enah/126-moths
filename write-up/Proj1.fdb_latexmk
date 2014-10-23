@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1414059020 "Proj1.tex" "Proj1.pdf" "Proj1" 1414059022
+["pdflatex"] 1414077625 "Proj1.tex" "Proj1.pdf" "Proj1" 1414077627
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -49,9 +49,15 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty" 1303254447 9581 1158efc648bc09d5064db5703c882159 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def" 1306616590 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty" 1264379145 21932 e3a9cf32ee9b853b42be14c2f25b873c ""
-  "Proj1.aux" 1414059022 662 b2b94621371df8d9296b8bf5bec1b851 ""
-  "Proj1.out" 1414059021 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "Proj1.tex" 1414059020 2675 49c35a56194b0f47fab0d9c546846247 ""
+  "Proj1.aux" 1414077627 1205 f8d65fa8a6972e84dcf9af6227e17f8d ""
+  "Proj1.out" 1414077627 327 01e6217d4febfdbf6139c248b62684c9 ""
+  "Proj1.tex" 1414077625 13356 753f65d264fe52988245f5bb8c6ad581 ""
+  "all_moths_8.png" 1414076140 40173 f79f70ff01c42cfcb34b4c532216e092 ""
+  "all_moths_9.png" 1414076140 46787 053a7bdcd3ee1d7d877749c562ada6c7 ""
+  "black_peppered_moth.jpg" 1414059405 75146 a319d770749c87fd12f8e6c74e9954fc ""
+  "moth_color.png" 1414075188 159263 7cb3761d14340928ede15f9a75aad09c ""
+  "transition_diagram.jpg" 1414069289 31872 dbd236cea6941a9045d9774ab953e82e ""
+  "white_peppered_moth.jpg" 1414059180 85906 347302d4df1389e59a2058d47618fe74 ""
   (generated)
   "Proj1.log"
   "Proj1.aux"
