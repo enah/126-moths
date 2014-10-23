@@ -10,19 +10,13 @@
 
 \maketitle
 
-\begin{align*}
-x &= \text{Number of WW}\\
-y &= \text{Number of Wg}\\
-z &= \text{Number of gg}
-\end{align*}
+We wish to model the evolution of a trait that is carried in the standard dominant-recessive fashion as enviornmental pressures make it such that different phenotypes have different probabilities of death. % that sounds really bad
 
-List of "random" things in the simulation:
+List of random things in the simulation:
 \begin{itemize}
-%\item Number to breed
 \item Randomly pair
 \item Children traits (Punnett square)
-\item Death %by predator
-%\item Carrying capacity (done by proportion for now)
+\item Death
 \end{itemize}
 
 At each timestep, pick two moths to breed (table of probability ):\\  
@@ -50,7 +44,12 @@ d_{Wg} &= \frac{d(Wg)}{WW+Wg}\\
 d_{gg} &= 1-d
 \end{align*}
 
-
+Now, let
+\begin{align*}
+x &= \text{Number of WW}\\
+y &= \text{Number of Wg}\\
+z &= \text{Number of gg}
+\end{align*}
 
 %Number of things you choose to breed is: $2 * \lfloor \frac{\text{Binom}(x+y+z, p)}{2} \rfloor$
 
