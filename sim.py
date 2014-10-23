@@ -1,17 +1,19 @@
 import random
 
-def simulate(initial_state, prob_white=0.9, max_steps=10000):
+def simulate(initial_state, prob_white=0.9, max_steps=10000, fraction=True):
     """
     Returns True if white moths are completely eliminated within max_steps;
-    False if gray moths are eliminated; fraction of gray moths if no absorbing
-    state is reached.
+    False if gray moths are eliminated. If fraction=True, returns fraction of 
+    gray moths if no absorbing state is reached. Otherwise, returns False 
+    unless all moths turn grey.
 
     initial_state: A dictionary mapping genotypes (strings) to initial 
         numbers of moths of that genotype.
     prob_white: The probability that a white moth is killed during
         the state transition phase.
     max_steps: The maximum allowed time steps.
-
+    fraction: If true, the function returns the final fraction of grey moths. 
+        If false, the function returns whether or not all moths are grey. 
     """
     pop_size = sum([initial_state[genotype] for genotype in initial_state])
    
@@ -22,7 +24,7 @@ def simulate(initial_state, prob_white=0.9, max_steps=10000):
             return True # Eliminated white moths
         elif all_ww(curr_state):
             return False 
-    return curr_state['gg'] / pop_size 
+    return curr_state['gg'] / pop_size if fraction else False
 
 def transition(curr_state, pop_size, prob_white):
     """

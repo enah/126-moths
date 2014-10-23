@@ -5,24 +5,32 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-def prob_against_num_moths(num_samples=100, max_moths=50):
+def prob_all_grey_against_num_moths(num_samples=100, max_moths=50):
     samples = []
-    for num_moths in xrange(1, max_moths + 1):
-        samples.append(sum(bool(simulate({'ww':0, 'wg':num_moths, 'gg':0}))
-                for _ in xrange(num_samples)) / float(num_samples))
+    for num_moths in range(1, max_moths + 1):
+        samples.append(
+                sum(simulate({'ww':0, 'wg':num_moths, 'gg':0}, 
+                        0.8, fraction=False)
+                for _ in range(num_samples)) / float(num_samples))
     plt.plot(samples)
+    plt.title('Probability All Moths Turn Grey')
+    plt.xlabel('Number of moths')
+    plt.ylabel('Probability')
     plt.show()
 
 def prob_against_white_death(num_samples=100, num_moths=30, granularity=0.05):
     samples = []
     for prob_white_death in np.arange(0, 1 + granularity, granularity):
-        samples.append(sum(bool(
-                simulate({'ww':0, 'wg':num_moths, 'gg':0}, prob_white_death))
-                for _ in xrange(num_samples)) / float(num_samples))
+        samples.append(sum(
+                simulate({'ww':0, 'wg':num_moths, 'gg':0}, prob_white_death)
+                for _ in range(num_samples)) / float(num_samples))
     plt.plot(np.arange(0, 1 + granularity, granularity), samples)
+    plt.title('Grey Moths Versus Probability of White Death')
+    plt.xlabel('Probability of white death')
+    plt.ylabel('Fraction of grey moths')
     plt.show()
 
-def prob_3d_against_both(num_samples=50, max_moths=30, granularity=0.1):
+def frac_grey_against_both(num_samples=50, max_moths=30, granularity=0.1):
     probs_white_death = np.arange(0, 1 + granularity, granularity)
     nums_moths = np.arange(1, max_moths + 1)
     results = np.zeros((len(nums_moths), len(probs_white_death)))
@@ -31,8 +39,8 @@ def prob_3d_against_both(num_samples=50, max_moths=30, granularity=0.1):
     for i, group in enumerate(stacked):
         for j, pair in enumerate(group):
             prob_white_death, num_moths = pair[0], pair[1]
-            results[i][j] = sum(bool(
-                simulate({'ww':0, 'wg':num_moths, 'gg':0}, prob_white_death))
+            results[i][j] = sum(
+                simulate({'ww':0, 'wg':num_moths, 'gg':0}, prob_white_death)
                 for _ in range(num_samples)) / float(num_samples)
 
     fig = plt.figure()
@@ -46,9 +54,9 @@ def prob_3d_against_both(num_samples=50, max_moths=30, granularity=0.1):
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
+    plt.title('Fraction of Grey Moths')
+    ax.set_xlabel('Probability of white moth death')
+    ax.set_ylabel('Number of moths')
+    ax.set_zlabel('Fraction of grey moths')
+
     plt.show()
-
-if __name__ == '__main__':
-    prob_3d_against_both(10, 10)
-
-
