@@ -117,36 +117,69 @@ If transitioning into a particular state requires a moth of genotype $x$ to be b
 
 \subsection{Python Implementation}
 
-The project code can be found in the {\tt sim.py} file. The main function is {\tt simulate}, which takes in an {\tt initial\_state} and (optionally) {\tt prob\_white} and {\tt max\_steps}, which represent the probability that the moth killed in a given transition is white, and the number of time steps the program is allowed to simulate, respectively. If not provided, {\tt prob\_white} defaults to {\tt 0.9} and {\tt max\_steps} defaults to {\tt 10000}.
+The project code can be found in the {\tt sim.py} file. The main function is {\tt simulate}, which simulates the change in genotype distribution over time of a given initial moth population.
 
-The {\tt simulate} function runs until it either reaches an absorbing state or has run {\tt max\_steps} times. If the population is entirely gray, it returns {\tt True}. If the population is entirely white or {\tt max\_steps} is reached before an absorbing state is reaching, it returns {\tt False}.
+
+\textbf{Interface}
+
+The {\tt simulate} function takes in an {\tt initial\_state} and three optional parameters: 
+
+\indent {\tt prob\_white}, the probability that the moth killed in a given transition is white --- defaults to {\tt 0.9} 
+
+\indent {\tt max\_steps}, the number of time steps the program is allowed to simulate --- defaults to {\tt 10000}
+
+\indent {\tt fraction}, a flag which indicates what to do if {\tt max\_steps} is reached before an absorbing state: if {\tt True}, it returns the fraction of gray moths left; if not, it simply returns {\tt False} to indicate white moths weren't eliminated --- defaults to {\tt True}
+
+The {\tt simulate} function runs until it either reaches an absorbing state or has run {\tt max\_steps} times. If the population is entirely gray, it returns {\tt True}. If the population is entirely white or {\tt max\_steps}, it returns {\tt False}. If no absorbing state is reached by the end of the simulation, it returns either {\tt False} or the fraction of the population that is gray based on the value of {\tt fraction}.
 
 \textbf{State Representation}
 
 States are represented as Python dictionaries of length $3$. The keys are genotypes, represented by the strings {\tt `ww'}, {\tt `wg'}, and {\tt `gg'}, and the values are the number of moths of that genotype. The user must input {\tt initial\_state} in that format. Population size is inferred by summing over the values of the dictionary, and is kept constant through the simulation.
 
-\textbf{Birth and Death}
+\subsection{Limitations}
 
-The code for birth is given in the {\tt new\_child} function, and the code for death is given in the {\tt kill\_moth} function.
+This simulation provides an informative but very simplified insight into the evolutionary process. We discuss notable limitations of the model below.
 
-It's important to note that the {\tt new\_child} partition moths into disjoint sets for mating; the simulation as written (and the analytic calculations we ran) assume any moth can mate with any moth. This does mean there is some probability that a moth may mate with itself. However, for larger population sizes this probability becomes negligible and does not affect the results very much.
+First, neither our analytical model nor our simulation partitions moths into disjoint sets for mating. Both the calculations and the code make the assumption that any moth can mate with any moth. This does mean there is some probability that a moth may mate with itself. However, for larger population sizes this probability becomes negligible and does not affect the results very much.
 
-The {\tt kill\_moth} function will kill white moths with probability {\tt prob\_white} and gray moths with probability {\tt 1\ -\ prob\_white} if both white and gray moths are present; if there are no gray moths, it will kill a white moth uniformly at random.
+The model assumes white moths will always die with a constant {\tt prob\_white}. A notable flaw in this model of death is that the probability that a moth of a given color will die has no dependence on the number of moths of that color; if only one white moth is left, it is extremely likely to be the one killed, which is not a very realistic assumption.
 
 \newpage
 
 \section{Results}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices volutpat lorem sed elementum. Suspendisse mollis a orci tempus ultricies. Ut diam tortor, dignissim non lorem bibendum, dapibus congue nisl. Etiam elementum non nulla quis accumsan. 
+There are two interesting questions we can ask about the data. First, under what circumstances do we reliably eliminate all white moths? Second, when we don't eliminate the white allele, what fraction of the moths are now gray?
 
-Nam eget enim eget leo tristique dignissim. Aenean facilisis nibh ut ipsum vestibulum laoreet.Sed mollis congue metus, a molestie magna efficitur quis. Nam id odio eu mauris tincidunt vulputate sit amet eget sapien. Mauris mollis leo vel ante tristique mattis. 
+It's obvious that as {\tt prob\_white} increases, the probability that all white moths are eliminated within {\tt max\_steps} also increases. What's more interesting is the relationship between the population size and the probability that all moths turn gray. Below is a plot of the probability that all moths turn gray against population size, with {\tt prob\_white} fixed at {\tt 0.8}: 
 
-Quisque interdum a nisl non viverra. Integer ac purus augue. Ut non convallis felis. Morbi eu urna diam. Curabitur tempus est non est consectetur, id viverra enim lacinia. Integer sed maximus lorem.
+\begin{center}
+\includegraphics[width=3.7in]{all_moths_8.png} 
+\end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices volutpat lorem sed elementum. Suspendisse mollis a orci tempus ultricies. Ut diam tortor, dignissim non lorem bibendum, dapibus congue nisl. 
+With {\tt prob\_white} equal to 0.8, as the number of moths increases, it becomes more and more difficult to fully eliminate a trait from the population.
 
-Etiam elementum non nulla quis accumsan. Nam eget enim eget leo tristique dignissim. Aenean facilisis nibh ut ipsum vestibulum laoreet. Sed mollis congue metus, a molestie magna efficitur quis. Nam id odio eu mauris tincidunt vulputate sit amet eget sapien. 
+\begin{center}
+\includegraphics[width=3.7in]{all_moths_9.png} 
+\end{center}
 
-Mauris mollis leo vel ante tristique mattis. Quisque interdum a nisl non viverra. Integer ac purus augue. Ut non convallis felis. Morbi eu urna diam. Curabitur tempus est non est consectetur, id viverra enim lacinia. Integer sed maximus lorem.
+On the contrary, with {\tt prob\_white} equal to 0.9, as the number of moths increases, it becomes more likely that all the moths become grey. This suggests that between 0.8 and 0.9, there is some probability at which this plot will flatten out and we will see an equilibrium. As the probability deviates from this equilibrium, a higher population size decreases the variance of whether we see all moths turn grey, and this probability approaches either 1 or 0. 
+
+\newpage
+The above plots showed the probability of all moths turning grey. As we will see, the fraction of moths grey after the maximum number of steps is taken reflects almost the exact same trends. The plot below shows the fraction of grey moths at the end of the simulation as a function both of {\tt prob\_white} and the population size.\footnote{Fun fact: the color on this plot corresponds to the expected average color of the population of moths after the simulation.} 
+
+\begin{center}
+\includegraphics[width=6in]{moth_color.png}
+\end{center}
+
+We see the general trends we would expect. 
+
+% As mentioned above, as population size increases, deviation from around the equilibrium probability (near 0.87) goes to 0 or 1 more quickly. 
+
+As mentioned above, there is an equilibrium {\tt prob\_white} (around 0.87\footnote{This was approximated empirically by trying several projections of the 3D plot around this region.
+}). Around this point, the relative frequencies of gray and white moths don't tend to change with population size. When {\tt prob\_white} is above this threshold, the system's tendency is for all moths to become gray. When it's below, the proportion of gray moths goes to $0$. 
+
+As the population increases, the variance of the distribution of genotypes decreases. Because of low variance, large populations will tend to converge much more quickly to the tendency given by {\tt prob\_white}. This is reflected in the plot by the increase in gradient as population size increases.
+
+This is the reason for the dip in the top-right corner; with a small population, variance is very high, so even with a very high probability of white moth death, we don't converge as quickly to an entirely gray population. Note that the two plots above are roughly projections of this 3D plot onto the planes {\tt prob\_white} = 0.8 and {\tt prob\_white} = 0.9. 
 
 \end{document}
